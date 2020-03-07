@@ -27,12 +27,15 @@ module.exports.create=function(req,res){
        return;
     }
     if(!user){
+       console.log(req.body);
        user.create(req.body,function(err,user){
+          console.log(err);
+          console.log(user);
          if(err){
             console.log('Error in Signup');
             return;
          }
-         return res.redirect('/user/sign-in');
+         return res.redirect('/users/sign-in');
        })
     }
     else{
