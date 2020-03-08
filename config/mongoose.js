@@ -8,7 +8,7 @@ db.on('error',console.error.bind(console,'error connecting to mongodb database')
 
 db.once('open',function(){
     console.log('connected to database');
-    console.log('mongodb://localhost/codeial_development')
+    
 })
 
 module.exports=db;
