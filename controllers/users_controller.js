@@ -27,9 +27,6 @@ module.exports.create=function(req,res){
        return;
     }
     if(!user){
-       console.log(req.body);
-       console.log(user);
-       console.log("inside user");
        User.create(req.body,function(err,user){
          if(err){
             console.log('Error in Signup');
@@ -44,6 +41,24 @@ module.exports.create=function(req,res){
  })
 }
 module.exports.createSession=function(req,res){
-   //todo
+   console.log(req.body);
+   User.findOne({email:req.body.email},function(err,user){
+      if(err){
+         console.log('Error in finding user in Sign-in');
+         return;
+      }
+      if(user){
+         if(req.body.password!=user.password){
+            return res.redirect('back');
+         }
+         else{
+            res.cookie('user_id',user.id);
+            res.redirect('/users/profile');
+         }
+      }
+      else{
+        return res.redirect('/users/sign-up');
+      }
+   });
   
  }
