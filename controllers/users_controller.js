@@ -1,8 +1,22 @@
 const User=require('../models/user');
+//render the profile page
 module.exports.profile=function(req,res){
-   return res.render('user_profile',{
-      title:"User_Profile"
-  });
+  if(req.cookies.user_id){
+     User.findById(req.cookies.user_id,function(err,user){
+            if(user){
+               return res.render('user_profile',{
+                  title:"User_Profile",
+                  user:user
+            });
+         }
+         else{
+            return res.redirect('/users/sign-in');
+         }
+     });   
+  }
+  else{
+     return res.redirect('/users/sign-in');
+  }
 }
 // render the signup page
 module.exports.signUp=function(req,res){
@@ -40,8 +54,8 @@ module.exports.create=function(req,res){
     }
  })
 }
+
 module.exports.createSession=function(req,res){
-   console.log(req.body);
    User.findOne({email:req.body.email},function(err,user){
       if(err){
          console.log('Error in finding user in Sign-in');
